@@ -32,8 +32,8 @@ public class AuthController {
         return "signin";
     }
 
-    @GetMapping("/dashboard")
+    @GetMapping("/userDash")
     public String dashboard() {
-        return "dashboard";
+        return "userDash";
     }
 }

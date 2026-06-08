@@ -26,7 +26,7 @@ public class SecurityConfig {
                         .loginPage("/signin")
                         .loginProcessingUrl("/login")
                         .usernameParameter("email")
-                        .defaultSuccessUrl("/dashboard", true)
+                        .defaultSuccessUrl("/userDash", true)
                         .permitAll()
                 )
                 .logout(logout -> logout

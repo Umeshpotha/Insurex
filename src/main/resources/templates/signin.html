@@ -110,8 +110,8 @@
     <form class="login-form" th:action="@{/login}" method="post">
 
         <div class="field">
-            <label for="username">Email</label>
-            <input id="username" name="username" type="email" placeholder="Enter your email" required />
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="Enter your email" required />
         </div>
 
         <div class="field">
@@ -136,7 +136,7 @@
         <div class="footer">
             <p>
                 New user?
-                <a th:href="@{/register}">Register here</a>
+                <a th:href="@{/signup}">Register here</a>
             </p>
             <p>
                 <a th:href="@{/}">Back to Home</a>
