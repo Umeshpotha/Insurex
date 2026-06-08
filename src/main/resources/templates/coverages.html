@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>InsureX Coverage</title>
+    <meta name="description" content="InsureX insurance coverage plans for auto, home, life, health, and travel." />
+    <style>
+        :root {
+            --bg: #eef4ff;
+            --surface: #ffffff;
+            --accent: #0b6cf6;
+            --accent-soft: #dce8ff;
+            --accent-dark: #7c3aed;
+            --muted: #6b7280;
+            --text: #0f172a;
+            --radius: 16px;
+            --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* header {
+            width: 100%;
+            padding: 22px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 60px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(15,23,42,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 10px 24px rgba(11,108,246,0.16);
+        }
+
+        .brand-text h1 {
+            margin: 0;
+            font-size: 1.4rem;
+            letter-spacing: -0.03em;
+        }
+
+        .brand-text p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--muted);
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            transition: all .2s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--accent);
+            background: rgba(11,108,246,0.08);
+        } */
+
+
+        header {
+    width: 99%;
+    /* padding: 22px 28px; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* ✅ FIXED */
+    flex-wrap: wrap; /* ✅ prevents overflow */
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(15,23,42,0.08);
+    position: sticky;
+    top: 0;
+    height:80px;
+    padding-left:12px;
+    z-index: 20;
+}
+
+/* BRAND */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    
+}
+
+/* NAV */
+nav {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: var(--muted);
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+nav a:hover,
+nav a.active {
+    color: var(--accent);
+    background: rgba(11,108,246,0.08);
+}
+
+/* ACTION LINKS */
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions a {
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: 1px solid rgba(15,23,42,0.1);
+    color: var(--muted);
+}
+
+.actions a.primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+.actions a:hover {
+    opacity: 0.9;
+}
+
+
+        .hero {
+            width: min(1120px, calc(100% - 56px));
+            margin: 24px auto 0;
+            padding: 34px 34px 28px;
+            border-radius: 24px;
+            background: linear-gradient(180deg, rgba(11,108,246,0.12), #ffffff);
+            box-shadow: var(--shadow);
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero-top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 18px;
+            align-items: flex-start;
+        }
+
+        .hero-copy {
+            max-width: 760px;
+        }
+
+        .hero-copy h2 {
+            margin: 0;
+            font-size: clamp(2rem, 3vw, 3rem);
+            line-height: 1.05;
+            color: var(--text);
+        }
+
+        .hero-copy p {
+            margin: 14px 0 0;
+            max-width: 640px;
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .button,
+        .button-secondary {
+            border: 0;
+            border-radius: 14px;
+            padding: 14px 20px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+
+        .button {
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+            color: #fff;
+            box-shadow: 0 16px 30px rgba(11,108,246,0.18);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .button-secondary {
+            background: #fff;
+            color: var(--text);
+            border: 1px solid #e5e7eb;
+        }
+
+        .hero-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-top: 12px;
+        }
+
+        .hero-pill {
+            border-radius: 999px;
+            padding: 10px 16px;
+            background: #fff;
+            color: var(--text);
+            font-size: 0.92rem;
+            box-shadow: 0 8px 24px rgba(15,23,42,0.06);
+        }
+
+        .covers {
+            width: min(1120px, calc(100% - 56px));
+            margin: 28px auto 36px;
+            display: grid;
+            gap: 22px;
+        }
+
+        .policy-card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 26px;
+            box-shadow: var(--shadow);
+            border: 1px solid transparent;
+            transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+        }
+
+        .policy-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(11,108,246,0.14);
+            box-shadow: 0 20px 44px rgba(11,108,246,0.12);
+        }
+
+        .policy-top {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .policy-name {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .policy-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .policy-tag span {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            display: inline-block;
+        }
+
+        .policy-tag.active {
+            background: rgba(22,163,74,0.12);
+            color: #166534;
+        }
+
+        .policy-tag.pending {
+            background: rgba(234,179,8,0.16);
+            color: #b45309;
+        }
+
+        .policy-tag.closed {
+            background: rgba(239,68,68,0.12);
+            color: #b91c1c;
+        }
+
+        .policy-card p {
+            margin: 14px 0 0;
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 0.96rem;
+        }
+
+        .policy-details {
+            display: grid;
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 22px;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .detail {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .detail span:first-child {
+            color: var(--muted);
+        }
+
+        .detail span:last-child {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .policy-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .policy-actions button {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            color: var(--text);
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+
+        .policy-actions button.primary {
+            border-color: transparent;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+            color: #fff;
+        }
+
+        .policy-actions button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px rgba(15,23,42,0.08);
+        }
+
+        .policy-actions button.secondary {
+            background: rgba(15,23,42,0.04);
+        }
+
+        footer {
+            width: 100%;
+            padding: 28px 24px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        @media (max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 680px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-actions,
+            .policy-actions {
+                width: 100%;
+            }
+
+            .hero-actions .button,
+            .hero-actions .button-secondary {
+                width: 100%;
+            }
+        }
+    </style>
+    <style>
+    
+
+    .covers {
+        width: min(1120px, calc(100% - 56px));
+        margin: 28px auto 36px;
+        display: grid;
+        gap: 22px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 900px) {
+        .hero-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 680px) {
+        header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .hero-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-actions,
+        .policy-actions {
+            width: 100%;
+        }
+
+        .hero-actions .button,
+        .hero-actions .button-secondary {
+            width: 100%;
+        }
+
+        .covers {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+<body>
+    <header>
+
+    <!-- Brand -->
+    <div class="brand">
+        <div class="logo">IX</div>
+        <div class="brand-text">
+            <h1>InsureX</h1>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="WelcomePage" >Home</a>
+        <a href="about"  >About</a>
+        <a href="coverages" class="active">Coverage</a> <!-- ✅ FIXED -->
+        <a href="contact" >Contact</a>
+    </nav>
+
+    <!-- Actions -->
+    <div class="actions">
+        <a href="signin">Sign in</a>   <!-- ✅ LINK -->
+        <a href="signup" class="primary">Sign up</a> <!-- ✅ LINK -->
+    </div>
+</header>
+
+    <section class="hero">
+        <div class="hero-top">
+            <div class="hero-copy">
+                <h2>Flexible coverage plans built for every stage of life.</h2>
+                <p>Explore InsureX policies for auto, home, health, life, and travel. Each plan is designed to provide clarity, protection, and faster service without the usual insurance complexity.</p>
+            </div>
+            <div class="hero-actions">
+                <button class="button">View policies</button>
+                <button class="button-secondary">Get a quote</button>
+            </div>
+        </div>
+        <div class="hero-grid">
+            <div class="hero-pill">Auto insurance</div>
+            <div class="hero-pill">Home insurance</div>
+            <div class="hero-pill">Life insurance</div>
+            <div class="hero-pill">Health insurance</div>
+            <div class="hero-pill">Travel insurance</div>
+            <div class="hero-pill">Business coverage</div>
+        </div>
+    </section>
+
+    <main class="covers">
+        <article class="policy-card">
+            <div class="policy-top">
+                <h3 class="policy-name">Auto Protection</h3>
+                <div class="policy-tag active"><span></span>Active</div>
+            </div>
+            <p>Comprehensive auto coverage for personal and family vehicles. Includes collision, liability, roadside assistance, and rental car protection.</p>
+            <div class="policy-details">
+                <div class="detail"><span>Coverage Limit</span><span>$100,000</span></div>
+                <div class="detail"><span>Deductible</span><span>$500</span></div>
+                <div class="detail"><span>Roadside Included</span><span>Yes</span></div>
+            </div>
+            <div class="policy-actions">
+                <button class="primary">Get quote</button>
+                <button class="secondary">Compare</button>
+            </div>
+        </article>
+
+        <article class="policy-card">
+            <div class="policy-top">
+                <h3 class="policy-name">Home Shield</h3>
+                <div class="policy-tag pending"><span></span>Popular</div>
+            </div>
+            <p>Protect your home, belongings, and liability with customizable coverages for property damage, theft, and natural events.</p>
+            <div class="policy-details">
+                <div class="detail"><span>Coverage Limit</span><span>$250,000</span></div>
+                <div class="detail"><span>Replacement Cost</span><span>Included</span></div>
+                <div class="detail"><span>Flood Add-on</span><span>Optional</span></div>
+            </div>
+            <div class="policy-actions">
+                <button class="primary">View plan</button>
+                <button class="secondary">Request callback</button>
+            </div>
+        </article>
+
+        <article class="policy-card">
+            <div class="policy-top">
+                <h3 class="policy-name">Life Secure</h3>
+                <div class="policy-tag active"><span></span>Trusted</div>
+            </div>
+            <p>Flexible life insurance with term and whole-life options. Secure your family’s future with guaranteed benefits and easy online enrollment.</p>
+            <div class="policy-details">
+                <div class="detail"><span>Coverage Term</span><span>10–30 years</span></div>
+                <div class="detail"><span>Benefit</span><span>$500,000</span></div>
+                <div class="detail"><span>Medical Exam</span><span>Waived online</span></div>
+            </div>
+            <div class="policy-actions">
+                <button class="primary">Apply now</button>
+                <button class="secondary">Learn more</button>
+            </div>
+        </article>
+
+        <article class="policy-card">
+            <div class="policy-top">
+                <h3 class="policy-name">Health Care Plus</h3>
+                <div class="policy-tag active"><span></span>Available</div>
+            </div>
+            <p>Health insurance designed for individuals and families. Covers preventive care, doctors, prescriptions, and hospital stays.</p>
+            <div class="policy-details">
+                <div class="detail"><span>Annual Limit</span><span>$1,000,000</span></div>
+                <div class="detail"><span>Co-pay</span><span>$25</span></div>
+                <div class="detail"><span>Virtual care</span><span>Included</span></div>
+            </div>
+            <div class="policy-actions">
+                <button class="primary">Check eligibility</button>
+                <button class="secondary">Compare plans</button>
+            </div>
+        </article>
+
+        <article class="policy-card">
+            <div class="policy-top">
+                <h3 class="policy-name">Travel Guard</h3>
+                <div class="policy-tag closed"><span></span>Seasonal</div>
+            </div>
+            <p>Travel coverage for trips at home and abroad. Protects against trip cancellation, medical emergencies, baggage loss, and delays.</p>
+            <div class="policy-details">
+                <div class="detail"><span>Trip Cost</span><span>Up to $50,000</span></div>
+                <div class="detail"><span>Medical</span><span>$250,000</span></div>
+                <div class="detail"><span>Covid Cover</span><span>Included</span></div>
+            </div>
+            <div class="policy-actions">
+                <button class="primary">Buy now</button>
+                <button class="secondary">View benefits</button>
+            </div>
+        </article>
+    </main>
+
+    <footer style="background: linear-gradient(180deg, #0b6cf6 0%, #7c3aed 100%); color: #f8fbff;padding: 22px 20px;">
+        © 2026 InsureX — Think smart and insure smart.
+    </footer>
+</body>
+</html>

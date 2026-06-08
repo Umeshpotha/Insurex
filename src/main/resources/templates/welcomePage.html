@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>InsureX</title>
+    <meta name="description" content="InsureX — Simple, fast, and trustworthy insurance tailored to protect what matters most." />
+    <style>
+        :root{
+            --bg:#f6f8fb;
+            --card:#ffffff;
+            --accent:#0b6cf6;
+            --muted:#6b7280;
+            --success:#16a34a;
+            --danger:#ef4444;
+            --warning:#f59e0b;
+            --info:#3b82f6;
+            --radius:10px;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        html,body{height:100%;overflow-x:hidden;}
+        body{
+            margin:0;
+            background:var(--bg);
+            color:#0f172a;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            padding:0px;
+            box-sizing:border-box;
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+        }
+        header{
+            display:flex;
+            gap:16px;
+            align-items:center;
+            justify-content:space-between;
+            margin-bottom:24px;
+            flex-wrap:wrap;
+            width:100%;
+            z-index: 20;
+        }
+        .brand{
+            display:flex;
+            gap:12px;
+            align-items:center;
+        }
+        .logo{
+            width:44px;
+            height:44px;
+            background:linear-gradient(135deg,var(--accent),#7c3aed);
+            border-radius:10px;
+            display:inline-grid;
+            place-items:center;
+            color:white;
+            font-weight:700;
+            box-shadow:0 4px 14px rgba(11,108,246,0.14);
+        }
+        .brand-text h2{
+            margin:0;
+            font-size:18px;
+            font-weight:700;
+            color:#0f172a;
+        }
+        .brand-text p{
+            margin:0;
+            font-size:12px;
+            color:var(--muted);
+        }
+        nav ul{
+            display:flex;
+            gap:12px;
+            list-style:none;
+            padding:0;
+            margin:0;
+            align-items:center;
+            flex-wrap:wrap;
+        }
+        nav a{
+            color:var(--muted);
+            text-decoration:none;
+            padding:8px 12px;
+            border-radius:8px;
+            font-size:14px;
+            transition:all .2s ease;
+        }
+        nav a:hover{
+            color:var(--accent);
+        }
+        nav a.active{
+            background:linear-gradient(90deg, rgba(11,108,246,0.12), rgba(124,58,237,0.06));
+            color:var(--accent);
+            font-weight:600;
+        }
+        .controls{
+            display:flex;
+            gap:12px;
+            align-items:center;
+        }
+        .btn{
+            border:0;
+            padding:10px 14px;
+            border-radius:8px;
+            background:var(--card);
+            cursor:pointer;
+            box-shadow:0 1px 2px rgba(16,24,40,0.04);
+            color:var(--muted);
+            font-weight:600;
+            font-size:14px;
+            transition:all .2s ease;
+        }
+        .btn:hover{
+            background:#f3f4f6;
+        }
+        .btn.primary{
+            background:linear-gradient(90deg,var(--accent),#7c3aed);
+            color:white;
+            box-shadow:0 8px 24px rgba(11,108,246,0.12);
+        }
+        .btn.primary:hover{
+            transform:translateY(-2px);
+            box-shadow:0 12px 32px rgba(11,108,246,0.16);
+        }
+
+        .page-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:24px;
+            gap:16px;
+            flex-wrap:wrap;
+        }
+        .page-header h1{
+            margin:0;
+            font-size:28px;
+            color:#0f172a;
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+        .page-header .icon{
+            width:36px;
+            height:36px;
+            background:linear-gradient(135deg,var(--accent),#7c3aed);
+            border-radius:10px;
+            display:grid;
+            place-items:center;
+            color:white;
+            font-weight:700;
+        }
+
+        .filters{
+            display:flex;
+            gap:12px;
+            margin-bottom:20px;
+            flex-wrap:wrap;
+            align-items:center;
+        }
+        .search-box{
+            display:flex;
+            gap:8px;
+            align-items:center;
+            background:var(--card);
+            padding:10px 12px;
+            border-radius:10px;
+            flex:1;
+            min-width:200px;
+            box-shadow:0 1px 2px rgba(16,24,40,0.04);
+        }
+        .search-box input{
+            border:0;
+            outline:0;
+            width:100%;
+            font-size:14px;
+            background:transparent;
+        }
+        .search-box input::placeholder{
+            color:var(--muted);
+        }
+        .filter-btn{
+            padding:10px 12px;
+            border:1px solid #e5e7eb;
+            background:var(--card);
+            border-radius:8px;
+            cursor:pointer;
+            font-size:14px;
+            color:var(--muted);
+            transition:all .2s ease;
+        }
+        .filter-btn:hover{
+            border-color:var(--accent);
+            color:var(--accent);
+        }
+        .filter-btn.active{
+            background:linear-gradient(90deg, rgba(11,108,246,0.12), rgba(124,58,237,0.06));
+            border-color:var(--accent);
+            color:var(--accent);
+            font-weight:600;
+        }
+
+        .policies-container{
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+            gap:16px;
+            margin-bottom:24px;
+        }
+
+        .policy-card{
+            background:var(--card);
+            border:1px solid #e5e7eb;
+            border-radius:12px;
+            padding:16px;
+            box-shadow:0 1px 3px rgba(16,24,40,0.06);
+            transition:all .2s ease;
+            cursor:pointer;
+            display:flex;
+            flex-direction:column;
+            gap:12px;
+        }
+        .policy-card:hover{
+            border-color:var(--accent);
+            box-shadow:0 8px 24px rgba(11,108,246,0.12);
+            transform:translateY(-4px);
+        }
+
+        .policy-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            gap:8px;
+        }
+        .policy-name{
+            font-weight:700;
+            font-size:16px;
+            color:#0f172a;
+            margin:0;
+        }
+        .policy-badge{
+            padding:4px 8px;
+            border-radius:6px;
+            font-size:12px;
+            font-weight:600;
+            white-space:nowrap;
+        }
+        .policy-badge.active{
+            background:rgba(22,163,74,0.12);
+            color:var(--success);
+        }
+        .policy-badge.inactive{
+            background:rgba(239,68,68,0.12);
+            color:var(--danger);
+        }
+        .policy-badge.draft{
+            background:rgba(107,114,128,0.12);
+            color:var(--muted);
+        }
+
+        .policy-meta{
+            display:flex;
+            gap:12px;
+            font-size:13px;
+            color:var(--muted);
+            padding-top:8px;
+            border-top:1px solid #f3f4f6;
+        }
+        .meta-item{
+            display:flex;
+            align-items:center;
+            gap:4px;
+        }
+
+        .policy-description{
+            font-size:13px;
+            color:var(--muted);
+            line-height:1.5;
+            margin:0;
+        }
+
+        .policy-details{
+            display:grid;
+            gap:8px;
+            padding:8px 0;
+            border-top:1px solid #f3f4f6;
+            border-bottom:1px solid #f3f4f6;
+        }
+        .detail-row{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            font-size:13px;
+        }
+        .detail-label{
+            color:var(--muted);
+        }
+        .detail-value{
+            font-weight:600;
+            color:#0f172a;
+        }
+
+        .policy-actions{
+            display:flex;
+            gap:8px;
+        }
+        .policy-btn{
+            flex:1;
+            padding:8px 12px;
+            border:1px solid #e5e7eb;
+            background:transparent;
+            border-radius:6px;
+            cursor:pointer;
+            font-size:13px;
+            font-weight:600;
+            color:var(--muted);
+            transition:all .2s ease;
+        }
+        .policy-btn:hover{
+            border-color:var(--accent);
+            color:var(--accent);
+            background:rgba(11,108,246,0.04);
+        }
+        .policy-btn.delete{
+            color:var(--danger);
+            border-color:var(--danger);
+        }
+        .policy-btn.delete:hover{
+            background:rgba(239,68,68,0.04);
+        }
+
+        .table-view{
+            background:var(--card);
+            border:1px solid #e5e7eb;
+            border-radius:12px;
+            box-shadow:0 1px 3px rgba(16,24,40,0.06);
+            overflow:hidden;
+        }
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+        thead{
+            background:#f9fafb;
+            border-bottom:1px solid #e5e7eb;
+        }
+        th{
+            padding:12px 16px;
+            text-align:left;
+            font-weight:600;
+            font-size:13px;
+            color:var(--muted);
+            text-transform:uppercase;
+            letter-spacing:0.5px;
+        }
+        td{
+            padding:14px 16px;
+            border-bottom:1px solid #f3f4f6;
+            font-size:14px;
+        }
+        tbody tr{
+            transition:background .2s ease;
+        }
+        tbody tr:hover{
+            background:#f9fafb;
+        }
+        tbody tr:last-child td{
+            border-bottom:0;
+        }
+
+        .status-indicator{
+            width:8px;
+            height:8px;
+            border-radius:50%;
+            display:inline-block;
+            margin-right:6px;
+        }
+        .status-indicator.active{
+            background:var(--success);
+        }
+        .status-indicator.inactive{
+            background:var(--danger);
+        }
+        .status-indicator.draft{
+            background:var(--muted);
+        }
+
+        .view-toggle{
+            display:flex;
+            gap:8px;
+            margin-bottom:16px;
+            align-items:center;
+        }
+        .view-toggle button{
+            width:36px;
+            height:36px;
+            border:1px solid #e5e7eb;
+            background:var(--card);
+            border-radius:6px;
+            cursor:pointer;
+            display:grid;
+            place-items:center;
+            color:var(--muted);
+            font-size:16px;
+            transition:all .2s ease;
+        }
+        .view-toggle button.active{
+            background:linear-gradient(90deg, rgba(11,108,246,0.12), rgba(124,58,237,0.06));
+            border-color:var(--accent);
+            color:var(--accent);
+        }
+        .view-toggle button:hover{
+            border-color:var(--accent);
+        }
+
+        .empty-state{
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            padding:40px 20px;
+            text-align:center;
+            color:var(--muted);
+        }
+        .empty-state .icon{
+            font-size:48px;
+            margin-bottom:12px;
+            opacity:0.5;
+        }
+        .empty-state h3{
+            margin:0 0 8px 0;
+            color:#0f172a;
+            font-size:16px;
+        }
+        .empty-state p{
+            margin:0 0 16px 0;
+            font-size:14px;
+        }
+
+        footer{
+            margin-top:auto;
+            padding-top:20px;
+            border-top:1px solid #e5e7eb;
+            text-align:center;
+            color:var(--muted);
+            font-size:12px;
+        }
+
+        /* -- keep previous welcome styles (slider, alumni, etc.) and adapt to this palette -- */
+        .container{max-width:100%;margin:0;padding:0;box-sizing:border-box;width:100vw;}
+        .slider{width:100%;overflow-x:auto;overflow-y:hidden;margin-top:12px;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;scrollbar-width:none;padding:0 20px;box-sizing:border-box;background:transparent;}
+        .track{display:flex;gap:14px;align-items:center;flex-wrap:nowrap;user-select:none;padding:8px 0;animation:autoScroll 30s linear infinite;}
+        .track:hover{animation-play-state:paused;}
+        .track img{width:250px;height:180px;object-fit:cover;border-radius:8px;background:#fff;box-shadow:0 4px 12px rgba(16,24,40,0.04);flex:0 0 auto;transition:transform 0.2s ease, box-shadow 0.2s ease;}
+        .track img:hover{transform:scale(1.05);box-shadow:0 6px 16px rgba(16,24,40,0.08);}
+        @keyframes autoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+        .headline{margin:0;font-size:26px;line-height:1.05;color:#0f172a;}
+        .sub{color:var(--muted);margin-top:8px;font-size:15px;}
+
+        .how{background:var(--card);border-radius:14px;padding:18px;border:1px solid rgba(11,102,115,0.04);box-shadow:0 8px 30px rgba(11,102,115,0.04);margin-top:8px;}
+        .steps{display:grid;gap:12px;grid-template-columns:repeat(1,1fr);}
+        .step{display:flex;gap:12px;align-items:flex-start;background:var(--card);padding:12px;border-radius:10px;border:1px solid #e6edf0;}
+        .step .num{width:38px;height:38px;border-radius:8px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;}
+        .alumni{width:100%;padding:40px 20px;background:transparent;border-top:1px solid #eef2f4;border-bottom:1px solid #eef2f4;margin-top:40px;}
+        .alumni-content{max-width:1200px;margin:0 auto;padding:0 20px;}
+        .alumni-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;width:100%;}
+        .alumni-card{background:var(--card);border-radius:12px;padding:24px;box-shadow:0 4px 12px rgba(16,24,40,0.04);transition:all 0.3s ease;}
+        .alumni-card h5{margin:0 0 8px 0;font-size:14px;font-weight:700;color:#0f172a;}
+        .alumni-card p{margin:0;font-size:13px;color:var(--muted);line-height:1.6;}
+        .alumni-card .rating{margin:12px 0 0 0;color:var(--warning);font-size:12px;}
+
+        main{display:flex;gap:28px;align-items:flex-start;margin-top:20px;padding:0 20px;max-width:1200px;margin-left:auto;margin-right:auto;flex-direction:row-reverse;}
+        section.hero{flex:1;min-width:260px;}
+        aside{width:320px;min-width:220px;position:sticky;top:80px;}
+
+        @media(max-width:768px){
+            main{flex-direction:column;padding:0 16px;}
+            aside{width:100% !important;min-width:auto !important;position:static;}
+            .alumni{padding:32px 16px;}
+            .alumni-content{padding:0 16px;}
+            .alumni-grid{gap:16px;}
+            .alumni-card{padding:20px;}
+        }
+        @media(max-width:480px){
+            .alumni{padding:24px 12px;}
+            .alumni-content{padding:0 12px;}
+            .alumni-grid{grid-template-columns:1fr;gap:12px;}
+        }
+    </style>
+
+    <style>
+
+
+/* HEADER */
+header {
+    width: 99%;
+    /* padding: 22px 28px; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* ✅ FIXED */
+    flex-wrap: wrap; /* ✅ prevents overflow */
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(15,23,42,0.08);
+    position: sticky;
+    top: 0;
+    height:80px
+}
+
+/* BRAND */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 15px;;
+}
+
+.logo {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+/* NAV */
+nav {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: var(--muted);
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+nav a:hover,
+nav a.active {
+    color: var(--accent);
+    background: rgba(11,108,246,0.08);
+}
+
+/* ACTION LINKS */
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions a {
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: 1px solid rgba(15,23,42,0.1);
+    color: var(--muted);
+}
+
+.actions a.primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+.actions a:hover {
+    opacity: 0.9;
+}
+
+/* 🛠 Extra: prevent content overflow */
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+</style>
+
+</head>
+<body>
+
+
+    <header>
+
+    <!-- Brand -->
+    <div class="brand">
+        <div class="logo" style="color:white;background:linear-gradient(135deg,var(--accent),#7c3aed);">IX</div>
+        <div class="brand-text">
+            <h1>InsureX</h1>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="WelcomePage" class="active">Home</a>
+        <a href="about">About</a>
+        <a href="coverages">Coverage</a>
+        <a href="contact">Contact</a>
+    </nav>
+
+    <!-- Actions -->
+    <div class="actions">
+        <a href="signin">Sign in</a>   <!-- ✅ LINK -->
+        <a href="signup" class="primary">Sign up</a> <!-- ✅ LINK -->
+    </div>
+</header>
+
+    <div class="container" role="main" aria-labelledby="welcomeTitle">
+        <div style="width:100%;">
+            <main>
+                <section class="hero" aria-labelledby="welcomeTitle">
+                    
+                        <div class="slider" aria-hidden="false" aria-label="Partners and product images">
+                            <div class="track" id="imageTrack" aria-hidden="false" aria-label="partner logos and samples">
+                                <img alt="Partner 1" src="images/image-1.jpg" draggable="false"/>
+                                <img alt="Partner 2" src="images/image-2.jpg" draggable="false"/>
+                                <img alt="Product sample" src="images/image-3.jpg" draggable="false"/>
+                                <img alt="Partner 3" src="images/image-4.jpg" draggable="false"/>
+                                <img alt="Product sample 2" src="images/image-5.jpg" draggable="false"/>
+                            </div>
+                        </div>
+                    
+
+                     <div style="margin-top:24px;">
+                      <h2 id="welcomeTitle" class="headline">Protect today. Thrive tomorrow.</h2>
+                    <p class="sub">InsureX makes getting coverage effortless — personalized plans, fast digital claims, and expert support so you can focus on living.</p>
+                    </div>
+
+                    <div class="cta-row" style="margin:18px 0; display:flex; gap:12px;">
+                        <button class="btn" id="learn">Learn how it works</button>
+                    </div>
+
+                    <div id="how" class="how" aria-labelledby="howTitle">
+                        <h3 id="howTitle" style="margin:0 0 10px 0;">How InsureX Works — in 3 steps</h3>
+                        <div class="steps" role="list">
+                            <div class="step" role="listitem">
+                                <div class="num">1</div>
+                                <div>
+                                    <h4>Tell us about what matters</h4>
+                                    <p>Quick, friendly questions help us personalize coverage — no jargon, no long forms.</p>
+                                </div>
+                            </div>
+                            <div class="step" role="listitem">
+                                <div class="num">2</div>
+                                <div>
+                                    <h4>Compare curated plans</h4>
+                                    <p>We show options from trusted partners so you can pick the right balance of price and protection.</p>
+                                </div>
+                            </div>
+                            <div class="step" role="listitem">
+                                <div class="num">3</div>
+                                <div>
+                                    <h4>Manage everything digitally</h4>
+                                    <p>Instant policy access, fast claims, and hands-on support when you need it.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alumni" aria-labelledby="alumniTitle">
+                            <div class="alumni-content">
+                                <h4 id="alumniTitle">What our customers say</h4>
+                                <div class="alumni-grid">
+                                    <div class="alumni-card">
+                                        <h5>Sarah Johnson</h5>
+                                        <p>"InsureX made getting coverage so simple. No confusing jargon, just straightforward protection for my family."</p>
+                                        <div class="rating">★★★★★</div>
+                                    </div>
+                                    <div class="alumni-card">
+                                        <h5>Michael Chen</h5>
+                                        <p>"Fast claims processing and helpful support team. They resolved my claim in just 48 hours!"</p>
+                                        <div class="rating">★★★★★</div>
+                                    </div>
+                                    <div class="alumni-card">
+                                        <h5>Emma Davis</h5>
+                                        <p>"Great coverage options at competitive prices. Highly recommend to anyone shopping around."</p>
+                                        <div class="rating">★★★★★</div>
+                                    </div>
+                                    <div class="alumni-card">
+                                        <h5>James Wilson</h5>
+                                        <p>"The personalized recommendations helped me choose the perfect plan. Best decision ever!"</p>
+                                        <div class="rating">★★★★★</div>
+                                    </div>
+                                    <div class="alumni-card">
+                                        <h5>Lisa Rodriguez</h5>
+                                        <p>"Exceptional customer service and transparent pricing. No hidden fees or surprises here."</p>
+                                        <div class="rating">★★★★★</div>
+                                    </div>
+                                    <div class="alumni-card">
+                                        <h5>David Thompson</h5>
+                                        <p>"Digital claims submission is a game-changer. I filed a claim from my phone in minutes."</p>
+                                        <div class="rating">★★★★★</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <footer style="background: linear-gradient(180deg, #0b6cf6 0%, #7c3aed 100%); color: #f8fbff; padding: 28px 24px;">
+    <div class="footer-inner" style="display:flex;gap:24px;align-items:flex-start;justify-content:space-evenly;flex-wrap:wrap;max-width:1100px;margin:0 auto;">
+        <div class="footer-section" style="max-width:260px;text-align:left;">
+            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;">
+                <div style="width:40px;height:40px;border-radius:10px;background:#fff;color:#0b6cf6;display:grid;place-items:center;font-weight:700;font-size:16px;margin-top: 20px;">IX</div>
+                <div>
+                    <h4 style="margin-top:13px;padding-top:10px;color:#fff;font-size:16px; display: inline-block;height:0px;">InsureX</h4>
+                    <p style="margin:4px 0 0;color:rgba(248,251,255,0.85);font-size:13px;">Think smart and insure smart</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-section" style="text-align:left;">
+            <h4 style="margin-bottom:10px;color:#fff;font-size:15px;">Product</h4>
+            <a href="#" style="color:rgba(248,251,255,0.9);text-decoration:none;font-size:13px;">How it works</a><br/>
+            <a href="#" style="color:rgba(248,251,255,0.9);text-decoration:none;font-size:13px;">Coverage types</a><br/>
+            <a href="#" style="color:rgba(248,251,255,0.9);text-decoration:none;font-size:13px;">Pricing</a>
+        </div>
+        <div class="footer-section" style="text-align:left;">
+            <h4 style="margin-bottom:10px;color:#fff;font-size:15px;">Company</h4>
+            <a href="#" style="color:rgba(248,251,255,0.9);text-decoration:none;font-size:13px;">About us</a><br/>
+            <a href="#" style="color:rgba(248,251,255,0.9);text-decoration:none;font-size:13px;">Blog</a><br/>
+            <a href="#" style="color:rgba(248,251,255,0.9);text-decoration:none;font-size:13px;">Careers</a>
+        </div>
+        <div class="footer-section" style="text-align:left;">
+            <h4 style="margin-bottom:10px;color:#fff;font-size:15px;">Support</h4>
+            <a href="#" style="color:rgba(248,251,255,0.9);text-decoration:none;font-size:13px;">Contact</a><br/>
+            <a href="#" style="color:rgba(248,251,255,0.9);text-decoration:none;font-size:13px;">FAQ</a><br/>
+            <a href="#" style="color:rgba(248,251,255,0.9);text-decoration:none;font-size:13px;">Privacy</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.18);margin-top:18px;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:16px;font-size:12px;color:rgba(248,251,255,0.85); margin-bottom: 0px;">
+        <span>&copy; 2026 InsureX. All rights reserved.</span>
+        <div class="social-links" style="display:flex;gap:10px;align-items:center;flex-shrink:0;">
+            <a href="#" title="Twitter" aria-label="Twitter" style="color:inherit;"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 9 0 9 0z"/></svg></a>
+            <a href="#" title="LinkedIn" aria-label="LinkedIn" style="color:inherit;"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" title="Facebook" aria-label="Facebook" style="color:inherit;"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a6 6 0 00-6 6v3H7v4h2v8h4v-8h3l1-4h-4V8a1 1 0 011-1h3z"/></svg></a>
+            <a href="#" title="Instagram" aria-label="Instagram" style="color:inherit;"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path fill="#0b6673" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle fill="#0b6673" cx="17.5" cy="6.5" r="1.5"/></svg></a>
+        </div>
+    </div>
+</footer>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scroll learn -> how section
+        document.getElementById('learn')?.addEventListener('click', ()=> {
+            const el = document.getElementById('how');
+            if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+        });
+
+        // Prevent native image drag
+        document.querySelectorAll('.track img').forEach(img => img.addEventListener('dragstart', (e)=> e.preventDefault()));
+    </script>
+
+    <!-- <script>
+    (function mountTopNav(){
+        function build(){
+            var css = `
+                .top-nav{position:sticky;top:0;z-index:1200;display:flex;align-items:center;gap:12px;padding:10px 18px;background:rgba(255,255,255,0.98);backdrop-filter:blur(6px) saturate(120%);border-bottom:1px solid rgba(6,31,43,0.04);box-shadow:0 6px 20px rgba(6,31,43,0.03);}
+                .top-nav .nav-left{display:flex;align-items:center;gap:12px;}
+                .top-nav .mini-logo{width:44px;height:44px;border-radius:8px;background:linear-gradient(180deg,var(--accent),#084e56);display:flex;align-items:center;justify-content:center;color:#e8fbff;font-weight:700;font-size:16px;flex:0 0 auto;}
+                .top-nav .site-name{font-weight:700;font-size:15px;color:#07202a;}
+                .top-nav .nav-links{margin-left:80px;display:flex;gap:20px;align-items:center;flex:1;}
+                .top-nav .nav-links a{color:var(--muted);text-decoration:none;font-size:13px;padding:8px 12px;border-radius:8px;font-weight:600;transition:all 0.3s ease;cursor:pointer;}
+                .top-nav .nav-links a:hover{background:rgba(6,31,43,0.04);color:#13343b;}
+                .top-nav .nav-links a.active{background:linear-gradient(135deg,#0a8a8f,#0b6673);color:#fff;box-shadow:0 4px 12px rgba(10,138,143,0.25);}
+                .top-nav .nav-links a.primary{background:#13343b;color:#fff;border-radius:10px;padding:8px 12px;}
+                .nav-actions{margin-left:auto;display:flex;align-items:center;gap:14px;position:relative;}
+                .seg-toggle{display:inline-flex;border-radius:12px;overflow:hidden;border:none;height:40px;align-items:center;background:transparent;gap:8px;}
+                .seg-toggle button{appearance:none;border:none;background:transparent;padding:10px 18px;font-weight:700;cursor:pointer;color:var(--muted);font-size:14px;border-radius:10px;transition:all 0.3s ease;}
+                .seg-toggle .seg-left{color:#13343b;border:1.5px solid rgba(19,52,59,0.15);}
+                .seg-toggle .seg-right{background:linear-gradient(135deg,#0a8a8f,#0b6673);color:#fff;border:none;box-shadow:0 4px 12px rgba(10,138,143,0.25);}
+                @media(max-width:768px){
+                    .top-nav .site-name{display:none;}
+                }
+            `;
+            var style = document.createElement('style');
+            style.setAttribute('data-inserted','top-nav-styles');
+            style.appendChild(document.createTextNode(css));
+            document.head.appendChild(style);
+
+            var nav = document.createElement('nav');
+            nav.className = 'top-nav';
+            nav.setAttribute('aria-label','Main site navigation');
+            nav.innerHTML = ''
+                + '<div class="nav-left">'
+                + '  <div class="mini-logo" aria-hidden="true">IX</div>'
+                + '  <div class="site-name">InsureX</div>'
+                + '</div>'
+                + '<div class="nav-links" role="menubar" aria-hidden="false">'
+                + '  <a role="menuitem" href="WelcomePage.html" class="active">Home</a>'
+                + '  <a role="menuitem" href="about.html">About</a>'
+                + '  <a role="menuitem" href="coverages.html">Coverage</a>'
+                + '  <a role="menuitem" href="contactPage.html">Contact</a>'
+                + '</div>'
+                + '<div class="nav-actions" aria-hidden="false">'
+                + '  <div class="seg-toggle" role="tablist" aria-label="Authentication actions">'
+                + '    <button type="button" class="seg-left" role="tab" aria-selected="true">Sign in</button>'
+                + '    <button type="button" class="seg-right" role="tab" aria-selected="false">Sign up</button>'
+                + '  </div>'
+                + '</div>';
+
+            var container = document.querySelector('.container');
+            if(container && container.parentNode){
+                container.parentNode.insertBefore(nav, container);
+            } else {
+                document.body.insertBefore(nav, document.body.firstChild);
+            }
+
+            var seg = nav.querySelector('.seg-toggle');
+            if(seg){
+                var left = seg.querySelector('.seg-left');
+                var right = seg.querySelector('.seg-right');
+                function setActive(side){
+                    if(side === 'left'){
+                        left.classList.add('active'); left.setAttribute('aria-selected','true');
+                        right.classList.remove('active'); right.setAttribute('aria-selected','false');
+                    } else {
+                        right.classList.add('active'); right.setAttribute('aria-selected','true');
+                        left.classList.remove('active'); left.setAttribute('aria-selected','false');
+                    }
+                }
+                setActive('left');
+                left.addEventListener('click', function(e){ e.preventDefault(); setActive('left'); });
+                right.addEventListener('click', function(e){ e.preventDefault(); setActive('right'); });
+            }
+        }
+
+        if(document.readyState === 'loading'){
+            document.addEventListener('DOMContentLoaded', build);
+        } else {
+            build();
+        }
+    })();
+    </script> -->
+
+    <script>
+        // clone images for seamless CSS auto-scroll + enable JS-driven auto-scroll fallback
+        (function(){
+            const slider = document.querySelector('.slider');
+            const track = document.querySelector('.track');
+            if(!slider || !track) return;
+
+            // clone only once
+            if(!track.dataset.cloned){
+                const imgs = Array.from(track.querySelectorAll('img'));
+                imgs.forEach(img => track.appendChild(img.cloneNode(true)));
+                track.dataset.cloned = '1';
+            }
+
+            // simple JS auto-scroll to complement CSS (rightwards)
+            let running = true;
+            let raf;
+            function step(){
+                if(!running) return;
+                slider.scrollLeft += 0.6;
+                if(slider.scrollLeft >= track.scrollWidth / 2) slider.scrollLeft = 0;
+                raf = requestAnimationFrame(step);
+            }
+            // start
+            step();
+
+            // pause on hover
+            slider.addEventListener('mouseenter', ()=> running = false);
+            slider.addEventListener('mouseleave', ()=> { if(!running) { running = true; step(); } });
+
+            // prevent drag
+            track.querySelectorAll('img').forEach(img => img.addEventListener('dragstart', e => e.preventDefault()));
+        })();
+    </script>
+
+    <script>
+        // nav active link behavior
+        document.addEventListener('click', function(e){
+            const a = e.target.closest('.top-nav .nav-links a');
+            if(!a) return;
+            document.querySelectorAll('.top-nav .nav-links a').forEach(l => l.classList.remove('active'));
+            a.classList.add('active');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsureX - Signup</title>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <header>
+        <div class="brand" onclick="window.location.href='/'">
+            <div class="logo">IX</div>
+            <div class="brand-text">
+                <h2>InsureX</h2>
+                <p>Think smart and insure smart.</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-wrapper">
+        <div class="row">
+            <div class="col-lg-7">
+
+                <div class="registration-card">
+                    <h2>User Registration</h2>
+
+                    <form th:action="@{/register}" th:object="${user}" method="post">
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Username *</label>
+                                <input type="text" th:field="*{username}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" th:field="*{email}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Birth</label>
+                                <input type="date" th:field="*{dob}">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="text" th:field="*{phoneNumber}">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Password *</label>
+                                <input type="password" th:field="*{password}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password *</label>
+                                <input type="password" id="confirmPassword" required>
+                            </div>
+                        </div>
+
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}" />
+
+                        <button type="submit">Register</button>
+
+                        <div class="footer-text">
+                            Already have an account?
+                            <a th:href="@{/login}">Login here</a>
+                        </div>
+
+                        <div class="footer-links">
+                            <a th:href="@{/}">Back to Home</a>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.querySelector("form").addEventListener("submit", function(e) {
+        const pass = document.querySelector('[name="password"]').value;
+        const confirm = document.getElementById("confirmPassword").value;
+
+        if (pass !== confirm) {
+            e.preventDefault();
+            alert("Passwords do not match ❌");
+        }
+    });
+</script>
+
+</body>
+</html>
+
+<style>
+    :root {
+        --bg: #f6f8fb;
+        --card: #ffffff;
+        --accent: #0b6cf6;
+        --accent-dark: #7c3aed;
+        --muted: #6b7280;
+        --dark: #0f172a;
+        --danger: #ef4444;
+        --radius: 12px;
+        --font-stack: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: var(--bg);
+        color: var(--dark);
+        font-family: var(--font-stack);
+        -webkit-user-drag: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    .page-wrapper {
+        width: 100%;
+        max-width: none;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 24px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+    }
+
+    .logo {
+        width: 44px;
+        height: 44px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+        border-radius: 10px;
+        display: inline-grid;
+        place-items: center;
+        color: white;
+        font-weight: 700;
+        font-size: 16px;
+        box-shadow: 0 4px 14px rgba(11, 108, 246, 0.14);
+        flex-shrink: 0;
+        transition: transform .2s ease;
+    }
+
+    .brand:hover .logo {
+        transform: translateY(-2px);
+    }
+
+    .brand-text h2 {
+        margin: 0;
+        font-size: 1.6rem;
+        font-weight: 700;
+    }
+
+    .brand-text p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+    }
+
+    .container-wrapper {
+        flex: 1;
+        width: 100%;
+        max-width: 100%;
+        padding: 32px 24px;
+        margin: 0;
+    }
+
+    .row {
+        display: flex;
+        justify-content: center;
+    }
+
+    .col-lg-7 {
+        width: 100%;
+        max-width: 700px;
+    }
+
+    .registration-card {
+        background: var(--card);
+        border-radius: var(--radius);
+        padding: 28px;
+        box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+    }
+
+    .registration-card h2 {
+        margin: 0 0 24px;
+        font-size: 1.8rem;
+        color: var(--dark);
+        text-align: center;
+    }
+
+    form {
+        display: grid;
+        gap: 0;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+    }
+
+    .form-row.full {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    label {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--dark);
+    }
+
+    .required {
+        color: var(--danger);
+    }
+
+    input, select {
+        padding: 12px 14px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-family: inherit;
+        color: var(--dark);
+        background: #fff;
+        transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(11, 108, 246, 0.08);
+    }
+
+    input::placeholder {
+        color: var(--muted);
+    }
+
+    button {
+        grid-column: 1 / -1;
+        padding: 12px 18px;
+        margin-top: 8px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+        color: white;
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 25px rgba(11, 108, 246, 0.2);
+    }
+
+    .footer-text {
+        grid-column: 1 / -1;
+        text-align: center;
+        margin-top: 16px;
+        font-size: 0.95rem;
+        color: var(--muted);
+    }
+
+    .footer-text a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color .2s ease;
+    }
+
+    .footer-text a:hover {
+        color: var(--accent-dark);
+        text-decoration: underline;
+    }
+
+    .footer-links {
+        grid-column: 1 / -1;
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 16px;
+        border-top: 1px solid #e5e7eb;
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .footer-links a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: color .2s ease;
+    }
+
+    .footer-links a:hover {
+        color: var(--accent-dark);
+        text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+        header {
+            padding: 14px 18px;
+        }
+
+        .brand-text h1 {
+            font-size: 1.4rem;
+        }
+
+        .registration-card {
+            padding: 20px;
+        }
+
+        .registration-card h2 {
+            font-size: 1.5rem;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+
+        .container-wrapper {
+            padding: 24px 16px;
+        }
+
+        .footer-links {
+            flex-direction: column;
+            gap: 12px;
+        }
+    }
+</style>

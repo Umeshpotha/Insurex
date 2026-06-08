@@ -1,0 +1,74 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.registration-card {
+    background: white;
+    padding: 34px 30px;
+    border-radius: 14px;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.16);
+    width: 100%;
+    max-width: 620px;
+}
+
+.registration-card h2 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 18px;
+    font-size: 1.5rem;
+}
+
+.form-label {
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+}
+
+.form-control,
+.form-select {
+    border-radius: 8px;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.15rem rgba(102, 126, 234, 0.22);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    font-weight: 600;
+    padding: 0.55rem 0.75rem;
+}
+
+.btn-link {
+    color: #5a5a5a;
+}
+
+.btn-link:hover {
+    color: #2c3a8c;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+@media (max-width: 576px) {
+    .registration-card {
+        padding: 22px;
+    }
+}

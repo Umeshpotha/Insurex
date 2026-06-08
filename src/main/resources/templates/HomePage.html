@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>InsureX — Home</title>
+    <style>
+        :root{
+            --bg:#f6f8fb;
+            --card:#ffffff;
+            --accent:#0b6cf6;
+            --muted:#6b7280;
+            --success:#16a34a;
+            --danger:#ef4444;
+            --radius:10px;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        html,body{height:100%;}
+        body{
+            margin:0;
+            background:var(--bg);
+            color:#0f172a;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            padding:24px;
+            box-sizing:border-box;
+        }
+        header{
+            display:flex;
+            gap:16px;
+            align-items:center;
+            justify-content:space-between;
+            margin-bottom:24px;
+        }
+        .brand{
+            display:flex;
+            gap:12px;
+            align-items:center;
+        }
+        .logo{
+            width:44px;
+            height:44px;
+            background:linear-gradient(135deg,var(--accent),#7c3aed);
+            border-radius:10px;
+            display:inline-grid;
+            place-items:center;
+            color:white;
+            font-weight:700;
+            box-shadow:0 4px 14px rgba(11,108,246,0.14);
+        }
+        nav ul{
+            display:flex;
+            gap:12px;
+            list-style:none;
+            padding:0;margin:0;
+            align-items:center;
+        }
+        nav a{
+            color:var(--muted);
+            text-decoration:none;
+            padding:8px 12px;
+            border-radius:8px;
+            font-size:14px;
+        }
+        nav a.active{
+            background:linear-gradient(90deg, rgba(11,108,246,0.12), rgba(124,58,237,0.06));
+            color:var(--accent);
+            font-weight:600;
+        }
+        .controls{
+            display:flex;
+            gap:12px;
+            align-items:center;
+        }
+        .btn{
+            border:0;
+            padding:10px 14px;
+            border-radius:8px;
+            background:var(--card);
+            cursor:pointer;
+            box-shadow:0 1px 2px rgba(16,24,40,0.04);
+            color:var(--muted);
+            font-weight:600;
+        }
+        .btn.primary{
+            background:linear-gradient(90deg,var(--accent),#7c3aed);
+            color:white;
+            box-shadow:0 8px 24px rgba(11,108,246,0.12);
+        }
+
+        .layout{
+            display:grid;
+            grid-template-columns: 1fr 360px;
+            gap:20px;
+            align-items:start;
+        }
+
+        .card{
+            background:var(--card);
+            border-radius:var(--radius);
+            padding:16px;
+            box-shadow:0 6px 20px rgba(11,15,30,0.04);
+        }
+
+        .hero{
+            padding:20px;
+            display:flex;
+            justify-content:space-between;
+            gap:16px;
+            align-items:center;
+        }
+        .hero .intro{
+            max-width:60%;
+        }
+        .hero h1{
+            margin:0 0 8px 0;
+            font-size:20px;
+        }
+        .hero p{
+            margin:0;
+            color:var(--muted);
+            font-size:14px;
+        }
+
+        .stats{
+            display:flex;
+            gap:12px;
+            margin-top:16px;
+        }
+        .stat{
+            flex:1;
+            padding:12px;
+            border-radius:10px;
+            background:linear-gradient(90deg, rgba(11,108,246,0.04), rgba(124,58,237,0.02));
+            min-width:0;
+        }
+        .stat .value{
+            font-size:18px;
+            font-weight:700;
+        }
+        .quick-actions{
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:12px;
+            margin-top:16px;
+        }
+        .action{
+            display:flex;
+            flex-direction:column;
+            gap:8px;
+            align-items:flex-start;
+            padding:12px;
+            border-radius:10px;
+            cursor:pointer;
+            transition:transform .12s ease;
+        }
+        .action:hover{ transform:translateY(-4px); }
+        .action .icon{
+            width:36px;height:36px;border-radius:8px;display:grid;place-items:center;color:white;
+        }
+        .action .label{font-weight:600;font-size:13px;}
+        .searchbar{
+            display:flex;
+            gap:8px;
+            margin-top:16px;
+            align-items:center;
+        }
+        .input{
+            display:flex;
+            gap:8px;
+            align-items:center;
+            background:var(--card);
+            padding:10px;
+            border-radius:10px;
+            flex:1;
+        }
+        input[type="search"]{
+            border:0;
+            outline:0;
+            width:100%;
+            font-size:14px;
+            background:transparent;
+        }
+        select{
+            border:0;
+            background:transparent;
+            font-size:14px;
+            color:var(--muted);
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:16px;
+            font-size:13px;
+        }
+        th,td{
+            text-align:left;
+            padding:10px 8px;
+            border-bottom:1px solid #eef2f7;
+            color:#0f172a;
+        }
+        th{ font-size:12px; color:var(--muted); font-weight:600; letter-spacing:0.2px; }
+        .pill{
+            display:inline-block;
+            padding:6px 8px;
+            border-radius:999px;
+            font-size:12px;
+            font-weight:700;
+            color:white;
+        }
+        .pill.active{ background:var(--success); }
+        .pill.pending{ background:#f59e0b; }
+        .pill.lapsed{ background:var(--danger); }
+
+        aside .panel{
+            display:flex;
+            flex-direction:column;
+            gap:12px;
+        }
+        .recent-item{
+            display:flex;
+            gap:12px;
+            align-items:flex-start;
+            padding:8px;
+            border-radius:8px;
+        }
+        .muted{ color:var(--muted); font-size:13px; }
+
+        footer{
+            margin-top:20px;
+            text-align:center;
+            color:var(--muted);
+            font-size:13px;
+        }
+
+        /* Welcome chooser styles */
+        .welcome {
+            display:flex;
+            gap:16px;
+            align-items:center;
+            justify-content:space-between;
+            background:linear-gradient(90deg, #fff, #fbfdff);
+            border-radius:12px;
+            padding:20px;
+            margin-bottom:18px;
+            box-shadow:0 8px 30px rgba(11,15,30,0.03);
+        }
+        .role-buttons{ display:flex; gap:10px; margin-top:12px; }
+        .role-btn{ padding:10px 14px; border-radius:10px; border:1px solid #eef2f7; background:transparent; cursor:pointer; font-weight:700; }
+        .role-btn.primary{ background:linear-gradient(90deg,var(--accent),#7c3aed); color:white; border:0; }
+
+        @media (max-width:980px){
+            .layout{ grid-template-columns: 1fr; }
+            .hero .intro{ max-width:100%; }
+            .quick-actions{ grid-template-columns:repeat(2,1fr); }
+            .welcome{ flex-direction:column; align-items:flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <div class="logo">IX</div>
+            <div>
+                <div style="font-weight:700">InsureX</div>
+                <div class="muted" style="font-size:12px;margin-top:2px">Policy management dashboard</div>
+            </div>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Dashboard</a></li>
+                <li><a href="#">Policies</a></li>
+                <li><a href="#">Claims</a></li>
+                <li><a href="#">Customers</a></li>
+                <li><a href="#">Reports</a></li>
+            </ul>
+        </nav>
+
+        <div class="controls">
+            <div id="roleIndicator" class="muted" style="font-size:13px">Role: Guest</div>
+            <button class="btn" id="notificationsBtn">Notifications</button>
+            <button class="btn" id="profileBtn">Profile</button>
+            <button class="btn primary" id="createPolicyBtn" onclick="actionCreatePolicy()">Create Policy</button>
+        </div>
+    </header>
+
+    <!-- Welcome chooser added -->
+    <div class="welcome card" role="region" aria-label="Welcome">
+        <div>
+            <div style="font-size:18px;font-weight:800;" id="welcomeTitle">Welcome to InsureX</div>
+            <div class="muted" id="welcomeSubtitle">Choose how you'd like to continue — Customer or Admin. You can preview features as a guest.</div>
+
+            <div class="role-buttons" style="margin-top:12px;">
+                <button class="role-btn primary" onclick="setRole('customer')">I'm a Customer</button>
+                <button class="role-btn" onclick="setRole('admin')">I'm an Admin</button>
+                <button class="role-btn" onclick="setRole('guest')">Continue as Guest</button>
+            </div>
+        </div>
+
+        <div style="min-width:220px;text-align:right;">
+            <div style="font-weight:700">Get started</div>
+            <div class="muted" style="font-size:13px;margin-top:8px">Select a role to see relevant actions and information.</div>
+        </div>
+    </div>
+
+    <main class="layout">
+        <section>
+            <div class="card hero">
+                <div class="intro">
+                    <h1 id="heroHeading">Welcome back — manage policies, claims and renewals</h1>
+                    <p id="heroText">Quickly find policies, create new coverages, and process claims. Monitor portfolio health and recent activity in one place.</p>
+
+                    <div class="stats" role="list" aria-label="overview stats">
+                        <div class="stat">
+                            <div class="muted">Total Policies</div>
+                            <div class="value">1,256</div>
+                        </div>
+                        <div class="stat">
+                            <div class="muted">Active</div>
+                            <div class="value">1,043</div>
+                        </div>
+                        <div class="stat">
+                            <div class="muted">Pending Claims</div>
+                            <div class="value">28</div>
+                        </div>
+                        <div class="stat">
+                            <div class="muted">Monthly Premiums</div>
+                            <div class="value">$412,320</div>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions" aria-label="quick actions" id="quickActions">
+                        <div class="action" onclick="actionCreatePolicy()">
+                            <div class="icon" style="background:linear-gradient(90deg,var(--accent),#7c3aed)">+</div>
+                            <div class="label">New Policy</div>
+                            <div class="muted" style="font-size:12px">Fast onboarding</div>
+                        </div>
+
+                        <div class="action" onclick="actionFileClaim()">
+                            <div class="icon" style="background:#f59e0b">⚑</div>
+                            <div class="label">File Claim</div>
+                            <div class="muted" style="font-size:12px">Capture incident details</div>
+                        </div>
+
+                        <div class="action" onclick="actionRenewals()">
+                            <div class="icon" style="background:var(--success)">⟳</div>
+                            <div class="label">Renewals</div>
+                            <div class="muted" style="font-size:12px">Manage upcoming</div>
+                        </div>
+
+                        <div class="action" onclick="actionReports()">
+                            <div class="icon" style="background:#06b6d4">📊</div>
+                            <div class="label">Reports</div>
+                            <div class="muted" style="font-size:12px">Portfolio insights</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width:40%;min-width:260px;">
+                    <div class="card" style="margin-bottom:12px;">
+                        <div style="font-weight:700">Quick search</div>
+                        <div class="searchbar">
+                            <div class="input">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <input type="search" id="q" placeholder="Search by policy number, customer or vehicle" onkeydown="if(event.key==='Enter') searchPolicies()" />
+                                <select id="type" aria-label="filter">
+                                    <option value="">All types</option>
+                                    <option>Auto</option>
+                                    <option>Home</option>
+                                    <option>Life</option>
+                                </select>
+                            </div>
+                            <button class="btn primary" onclick="searchPolicies()">Search</button>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-bottom:12px;">
+                        <div style="font-weight:700; margin-bottom:8px">Upcoming renewals</div>
+                        <div class="muted" style="font-size:13px">3 policies due in next 30 days</div>
+                        <ul style="padding:0;margin:12px 0 0 0;list-style:none;">
+                            <li class="recent-item">
+                                <div style="width:10px;height:10px;background:var(--danger);border-radius:50%;margin-top:6px"></div>
+                                <div>
+                                    <div style="font-weight:700">POL-94823</div>
+                                    <div class="muted">John Doe — Auto • due in 4 days</div>
+                                </div>
+                            </li>
+                            <li class="recent-item">
+                                <div style="width:10px;height:10px;background:#f59e0b;border-radius:50%;margin-top:6px"></div>
+                                <div>
+                                    <div style="font-weight:700">POL-76241</div>
+                                    <div class="muted">Acme Logistics — Commercial • due in 12 days</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div style="font-weight:700">Portfolio health</div>
+                        <div style="display:flex;gap:8px;margin-top:12px;">
+                            <div style="flex:1;padding:12px;background:#f8fafc;border-radius:8px;">
+                                <div class="muted">Loss Ratio</div>
+                                <div style="font-weight:800">22%</div>
+                            </div>
+                            <div style="flex:1;padding:12px;background:#f8fafc;border-radius:8px;">
+                                <div class="muted">Retention</div>
+                                <div style="font-weight:800">88%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:20px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div style="font-weight:700">Recent policies</div>
+                    <div class="muted">Showing 10 of 1,256</div>
+                </div>
+
+                <table aria-label="Recent policies">
+                    <thead>
+                        <tr>
+                            <th>Policy #</th>
+                            <th>Customer</th>
+                            <th>Type</th>
+                            <th>Premium</th>
+                            <th>Effective</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="policyTable">
+                        <tr>
+                            <td>P-1256</td>
+                            <td>Jane Smith</td>
+                            <td>Auto</td>
+                            <td>$1,120/yr</td>
+                            <td>2025-01-01</td>
+                            <td><span class="pill active">Active</span></td>
+                            <td style="text-align:right"><button class="btn" onclick="viewPolicy('P-1256')">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>P-1255</td>
+                            <td>Maple Homes Inc.</td>
+                            <td>Commercial</td>
+                            <td>$12,430/yr</td>
+                            <td>2024-11-15</td>
+                            <td><span class="pill pending">Pending</span></td>
+                            <td style="text-align:right"><button class="btn" onclick="viewPolicy('P-1255')">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>P-1254</td>
+                            <td>Robert Johnson</td>
+                            <td>Home</td>
+                            <td>$890/yr</td>
+                            <td>2024-09-01</td>
+                            <td><span class="pill lapsed">Lapsed</span></td>
+                            <td style="text-align:right"><button class="btn" onclick="viewPolicy('P-1254')">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <aside>
+            <div class="card panel">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div style="font-weight:700">Activity feed</div>
+                    <div class="muted" style="font-size:13px">Live</div>
+                </div>
+
+                <div>
+                    <div class="recent-item">
+                        <div style="width:40px;height:40px;border-radius:8px;background:#eef2ff;display:grid;place-items:center;color:var(--accent)">A</div>
+                        <div>
+                            <div style="font-weight:700">Claim submitted</div>
+                            <div class="muted">Claim #C-4412 by Alice • 2 hours ago</div>
+                        </div>
+                    </div>
+
+                    <div class="recent-item">
+                        <div style="width:40px;height:40px;border-radius:8px;background:#fff7ed;display:grid;place-items:center;color:#f59e0b">R</div>
+                        <div>
+                            <div style="font-weight:700">Policy renewed</div>
+                            <div class="muted">POL-94823 renewed • 1 day ago</div>
+                        </div>
+                    </div>
+
+                    <div class="recent-item">
+                        <div style="width:40px;height:40px;border-radius:8px;background:#fef2f2;display:grid;place-items:center;color:var(--danger)">!</div>
+                        <div>
+                            <div style="font-weight:700">Payment failed</div>
+                            <div class="muted">Payment for POL-76241 failed • 3 days ago</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:8px;">
+                    <button class="btn" style="width:100%" onclick="openActivity()">View all</button>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:12px;">
+                <div style="font-weight:700">Shortcuts</div>
+                <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+                    <button class="btn" onclick="actionCreatePolicy()">New policy</button>
+                    <button class="btn" onclick="actionFileClaim()">New claim</button>
+                    <button class="btn" onclick="actionCustomers()">Customers</button>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        InsureX • © <span id="year"></span> — Built for policy teams
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // maintain current role: 'guest' | 'customer' | 'admin'
+        let currentRole = 'guest';
+
+        function setRole(role){
+            currentRole = role;
+            document.getElementById('roleIndicator').textContent = 'Role: ' + capitalize(role);
+            const title = role === 'admin'
+                ? 'Welcome, Admin — manage platform settings and portfolios'
+                : role === 'customer'
+                    ? 'Welcome, Customer — view your policies and claims'
+                    : 'Welcome to InsureX';
+            const subtitle = role === 'admin'
+                ? 'Access admin tools: policies, reports, and user management.'
+                : role === 'customer'
+                    ? 'Quickly view your active policies, file claims, and contact support.'
+                    : 'Choose a role to see relevant actions; sign in for full access.';
+
+            document.getElementById('welcomeTitle').textContent = title;
+            document.getElementById('welcomeSubtitle').textContent = subtitle;
+            document.getElementById('heroHeading').textContent = role === 'guest' ? 'Welcome back — explore InsureX' : document.getElementById('heroHeading').textContent;
+            document.getElementById('heroText').textContent = subtitle;
+
+            // admin-only controls
+            const createPolicyBtn = document.getElementById('createPolicyBtn');
+            if(role === 'admin'){
+                createPolicyBtn.style.display = 'inline-block';
+                // show Reports in quick actions (keep others)
+                ensureReportsAction(true);
+            } else if(role === 'customer'){
+                createPolicyBtn.style.display = 'none';
+                ensureReportsAction(false);
+            } else {
+                createPolicyBtn.style.display = 'none';
+                ensureReportsAction(false);
+            }
+        }
+
+        function ensureReportsAction(show){
+            const quick = document.getElementById('quickActions');
+            // reports action is the 4th child; toggle its visibility
+            if(quick && quick.children[3]){
+                quick.children[3].style.display = show ? 'flex' : 'none';
+            }
+        }
+
+        function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+        // wire default: guest
+        setRole('guest');
+
+        function searchPolicies(){
+            const q = document.getElementById('q').value.trim();
+            const type = document.getElementById('type').value;
+            alert('Search triggered:\\nQuery: ' + (q || '(empty)') + '\\nType: ' + (type || 'All') + '\\nRole: ' + capitalize(currentRole));
+        }
+
+        function viewPolicy(id){
+            alert('Open policy: ' + id + '\\nRole: ' + capitalize(currentRole));
+        }
+
+        function actionCreatePolicy(){
+            if(currentRole !== 'admin'){
+                alert('Create Policy is available to admins only. Sign in as admin to proceed.');
+                return;
+            }
+            alert('Open create policy form');
+        }
+        function actionFileClaim(){
+            if(currentRole === 'guest'){
+                alert('Please sign in to file a claim.');
+                return;
+            }
+            alert('Open file claim workflow');
+        }
+        function actionRenewals(){
+            alert('Open renewals manager');
+        }
+        function actionReports(){
+            if(currentRole !== 'admin'){
+                alert('Reports available to admins only.');
+                return;
+            }
+            alert('Open reports');
+        }
+        function actionCustomers(){
+            alert('Open customers list');
+        }
+        function openActivity(){
+            alert('Open activity feed');
+        }
+    </script>
+</body>
+</html>
