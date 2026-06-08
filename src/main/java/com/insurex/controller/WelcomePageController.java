@@ -25,4 +25,9 @@ public class WelcomePageController {
     public String contactPage() {
         return "contactPage";
     }
+
+    @GetMapping("/wecomePage")
+    public String toWelcomePage() {
+        return "welcomePage";
+    }
 }
