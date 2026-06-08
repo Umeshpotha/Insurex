@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+
+<div th:fragment="toaster">
+
+    <div th:if="${error}" id="errorToast" class="global-toast error-toast">
+        <span class="toast-icon">⚠️</span>
+        <span class="toast-text" th:text="${error}">Error Message</span>
+    </div>
+
+    <div th:if="${param.success}" id="successToast" class="global-toast success-toast">
+        <span class="toast-icon">🎉</span>
+        <span class="toast-text">Action completed successfully!</span>
+    </div>
+
+    <div th:if="${param.logout}" id="logoutToast" class="global-toast success-toast">
+        <span class="toast-icon">✅</span>
+        <span class="toast-text">Logged out successfully.</span>
+    </div>
+
+    <style>
+        .global-toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 9999;
+            background: #ffffff;
+            color: #0f172a;
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: system-ui, -apple-system, sans-serif;
+            animation: toastSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .error-toast { border-left: 6px solid #ef4444; }
+        .success-toast { border-left: 6px solid #10b981; }
+        .toast-text { font-size: 0.95rem; font-weight: 600; }
+        .toast-icon { font-size: 1.25rem; }
+
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateX(40px) scale(0.9); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
+        }
+    </style>
+
+    <script>
+        document.querySelectorAll('.global-toast').forEach(toast => {
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-20px) scale(0.95)';
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        });
+    </script>
+</div>
+
+</body>
+</html>

@@ -35,6 +35,12 @@
                                 <input type="text" th:field="*{username}" required>
                             </div>
                         </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Aadhar Number *</label>
+                                <input type="text" th:field="*{aadhaarNumber}" required>
+                            </div>
+                        </div>
 
                         <div class="form-row">
                             <div class="form-group">
@@ -100,6 +106,10 @@
         }
     });
 </script>
+<div th:replace="~{fragments :: toaster}"></div>
+
+<div class="page-wrapper">
+</div>
 
 </body>
 </html>

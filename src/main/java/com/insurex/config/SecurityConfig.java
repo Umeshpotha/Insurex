@@ -30,8 +30,12 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/signin?logout")
+                        .logoutUrl("/logout") // 1. Path that triggers the logout process
+                        .invalidateHttpSession(true) // 2. Destroys the server-side user session
+                        .clearAuthentication(true) // 3. Wipes out security context authentication details
+                        .deleteCookies("JSESSIONID") // 4. Removes the session identifier cookie from the browser
+                        .logoutSuccessUrl("/signin?logout") // 5. Forwards back to sign-in with a success flag
+                        .permitAll()
                 );
 
         return http.build();

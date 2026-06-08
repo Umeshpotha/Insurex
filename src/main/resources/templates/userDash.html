@@ -1,4 +1,27 @@
 <h2 xmlns:th="http://www.w3.org/1999/xhtml">Welcome to Dashboard ✅</h2>
 
-<form th:action="@{/logout}" >Logout</button>
+<form th:action="@{/logout}" method="post" style="display: inline;">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <button type="submit" class="logout-btn">Logout</button>
 </form>
+
+<div th:replace="~{fragments :: toaster}"></div>
+
+<div class="page-wrapper">
+</div>
+
+<style>
+    .logout-btn {
+        background-color: #ef4444;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+    .logout-btn:hover {
+        background-color: #dc2626;
+    }
+</style>
