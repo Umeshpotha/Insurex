@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en">
+<!doctype html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -611,17 +611,17 @@ body {
         <div style="width:100%;">
             <main>
                 <section class="hero" aria-labelledby="welcomeTitle">
-                    
+
                         <div class="slider" aria-hidden="false" aria-label="Partners and product images">
                             <div class="track" id="imageTrack" aria-hidden="false" aria-label="partner logos and samples">
-                                <img alt="Partner 1" src="images/image-1.jpg" draggable="false"/>
-                                <img alt="Partner 2" src="images/image-2.jpg" draggable="false"/>
-                                <img alt="Product sample" src="images/image-3.jpg" draggable="false"/>
-                                <img alt="Partner 3" src="images/image-4.jpg" draggable="false"/>
-                                <img alt="Product sample 2" src="images/image-5.jpg" draggable="false"/>
+                                <img alt="Partner 1" th:src="@{resources/static/images/image-1.jpg}" draggable="false">
+                                <img alt="Partner 2" th:src="@{resources/static/images/image-2.jpg}" draggable="false">
+                                <img alt="Product sample" th:src="@{resources/static/images/image-3.jpg}" draggable="false">
+                                <img alt="Partner 3" th:src="@{resources/static/images/image-4.jpg}" draggable="false">
+                                <img alt="Product sample 2" th:src="@{resources/static/images/image-5.jpg}" draggable="false">
                             </div>
                         </div>
-                    
+
 
                      <div style="margin-top:24px;">
                       <h2 id="welcomeTitle" class="headline">Protect today. Thrive tomorrow.</h2>

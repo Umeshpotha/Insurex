@@ -48,7 +48,7 @@ public class SecurityConfig {
         return (request, response, authentication) -> {
             boolean admin = authentication.getAuthorities().stream()
                     .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
-            response.sendRedirect(admin ? "/admin" : "/userDash");
+            response.sendRedirect(admin ? "/admin" : "/dashboard");
         };
     }
 }
