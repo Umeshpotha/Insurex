@@ -1,9 +1,11 @@
 package com.insurex.repository;
 
 import com.insurex.model.User;
+import com.insurex.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
+import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -12,4 +14,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // ✅ Check if email already exists (for signup validation)
     boolean existsByEmail(String email);
+    List<User> findByRoleOrderByUsernameAsc(Role role);
 }

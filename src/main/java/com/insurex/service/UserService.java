@@ -29,4 +29,9 @@ public class UserService {
 
         return repo.save(user);
     }
+
+    public User findByEmail(String email) {
+        return repo.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
 }

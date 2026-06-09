@@ -33,7 +33,7 @@ public class DashboardController {
     public String showUserDashboard(Model model) {
         String currentLoggedEmail = getAuthenticatedUserEmail();
 
-        List<Policy> structuralNewPolicies = policyRepository.findAll();
+        List<Policy> structuralNewPolicies = policyRepository.findByStatusIgnoreCaseOrderByCreatedAtDesc("ACTIVE");
         List<Claim> structuralUserClaims = claimRepository.findByUser_Email(currentLoggedEmail);
 
         model.addAttribute("availablePolicies", structuralNewPolicies);
@@ -48,7 +48,7 @@ public class DashboardController {
     public String showMyCoverage(Model model) {
         String currentLoggedEmail = getAuthenticatedUserEmail();
 
-        List<Policy> structuralNewPolicies = policyRepository.findAll();
+        List<Policy> structuralNewPolicies = policyRepository.findByStatusIgnoreCaseOrderByCreatedAtDesc("ACTIVE");
         List<Claim> structuralUserClaims = claimRepository.findByUser_Email(currentLoggedEmail);
 
         model.addAttribute("availableCount", structuralNewPolicies != null ? structuralNewPolicies.size() : 0);
@@ -63,7 +63,7 @@ public class DashboardController {
     public String showBillingDetails(Model model) {
         String currentLoggedEmail = getAuthenticatedUserEmail();
 
-        List<Policy> structuralNewPolicies = policyRepository.findAll();
+        List<Policy> structuralNewPolicies = policyRepository.findByStatusIgnoreCaseOrderByCreatedAtDesc("ACTIVE");
         List<Claim> structuralUserClaims = claimRepository.findByUser_Email(currentLoggedEmail);
 
         model.addAttribute("availableCount", structuralNewPolicies != null ? structuralNewPolicies.size() : 0);

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AuthController {
@@ -35,7 +36,7 @@ public class AuthController {
         // 1. Intercept signed-in users trying to access the signup form
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
-            return "redirect:/userDash";
+            return redirectFor(auth);
         }
 
         model.addAttribute("user", new User());
@@ -61,7 +62,7 @@ public class AuthController {
 
         // ✅ If logged in, automatically bounce them straight back to their dashboard
         if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
-            return "redirect:/userDash";
+            return redirectFor(auth);
         }
 
         return "signin";
@@ -79,7 +80,7 @@ public class AuthController {
         System.out.println("DEBUG -> LOGGED IN USER IS: " + currentLoggedEmail);
 
         // 2. Fetch all rows out of your DB tables (Now works perfectly!)
-        List<Policy> availablePolicies = policyRepository.findAll();
+        List<Policy> availablePolicies = policyRepository.findByStatusIgnoreCaseOrderByCreatedAtDesc("ACTIVE");
         System.out.println("DEBUG -> POLICIES FOUND IN DB: " + availablePolicies.size());
         System.out.println("=============================================");
 
@@ -88,9 +89,42 @@ public class AuthController {
         // 3. Bind everything to the UI context
         model.addAttribute("availablePolicies", availablePolicies);
         model.addAttribute("myClaims", userClaims);
+        model.addAttribute("claimsCount", userClaims.size());
         model.addAttribute("sessionEmail", currentLoggedEmail);
 
         // 4. Serves userDash.html cleanly
         return "userDash";
+    }
+
+    private String redirectFor(Authentication authentication) {
+        boolean admin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+        return admin ? "redirect:/admin" : "redirect:/userDash";
+    }
+
+    @PostMapping("/applyPolicy")
+    public String applyPolicy(@RequestParam Long policyId, RedirectAttributes redirectAttributes) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = service.findByEmail(email);
+        Policy policy = policyRepository.findById(policyId)
+                .orElseThrow(() -> new IllegalArgumentException("Policy not found"));
+        if (!"ACTIVE".equalsIgnoreCase(policy.getStatus())) {
+            throw new IllegalArgumentException("This policy is not accepting applications");
+        }
+
+        if (claimRepository.existsByUser_EmailAndPolicyName(email, policy.getName())) {
+            redirectAttributes.addFlashAttribute("error", "You already applied for this policy");
+            return "redirect:/dashboard";
+        }
+
+        Claim application = new Claim();
+        application.setUser(user);
+        application.setPolicyName(policy.getName());
+        application.setCategory(policy.getCategory());
+        application.setClaimAmount(policy.getCoverageAmount());
+        application.setStatus("Pending");
+        claimRepository.save(application);
+        redirectAttributes.addFlashAttribute("success", "Policy application submitted");
+        return "redirect:/my-coverage";
     }
 }

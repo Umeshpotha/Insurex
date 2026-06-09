@@ -9,4 +9,6 @@ import java.util.List;
 public interface ClaimRepository extends JpaRepository<Claim, Long> {
     // Spring safely handles inner joins down to the user's authentication email field
     List<Claim> findByUser_Email(String email);
+    long countByStatusIgnoreCase(String status);
+    boolean existsByUser_EmailAndPolicyName(String email, String policyName);
 }

@@ -17,7 +17,9 @@ public class WelcomePageController {
         // 2. Check if the user is logged in (and make sure they aren't an anonymous guest)
         if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
             // ✅ Automatically forward them straight to the dashboard page
-            return "redirect:/userDash";
+            boolean admin = auth.getAuthorities().stream()
+                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+            return admin ? "redirect:/admin" : "redirect:/userDash";
         }
 
         // 3. Fallback for non-authenticated guests to access the landing home view
