@@ -7,6 +7,7 @@ import com.insurex.repository.PolicyRepository;
 import com.insurex.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,14 +17,17 @@ public class DataInitializer implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final PolicyRepository policyRepository;
+    private final PasswordEncoder passwordEncoder;
     private final String adminEmail;
     private final String adminPassword;
 
     public DataInitializer(UserRepository userRepository, PolicyRepository policyRepository,
+                           PasswordEncoder passwordEncoder,
                            @Value("${insurex.admin.email:admin@insurex.com}") String adminEmail,
                            @Value("${insurex.admin.password:admin123}") String adminPassword) {
         this.userRepository = userRepository;
         this.policyRepository = policyRepository;
+        this.passwordEncoder = passwordEncoder;
         this.adminEmail = adminEmail;
         this.adminPassword = adminPassword;
     }
@@ -51,7 +55,7 @@ public class DataInitializer implements CommandLineRunner {
         User admin = new User();
         admin.setUsername("InsureX Administrator");
         admin.setEmail(adminEmail.toLowerCase());
-        admin.setPassword(adminPassword);
+        admin.setPassword(passwordEncoder.encode(adminPassword));
         admin.setRole(Role.ADMIN);
         userRepository.save(admin);
     }

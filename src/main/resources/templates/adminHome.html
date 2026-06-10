@@ -10,7 +10,7 @@
 <body>
 <header><div class="brand"><div class="logo">IX</div><div>InsureX Admin</div></div>
     <nav><a class="active" th:href="@{/admin}">Dashboard</a><a th:href="@{/admin/policies}">Policies</a><a th:href="@{/admin/claims}">Applications</a><a th:href="@{/admin/customers}">Customers</a></nav>
-    <form th:action="@{/logout}" method="post"><button class="btn">Sign out</button></form>
+    <form th:action="@{/logout}" method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/><button class="btn">Sign out</button></form>
 </header>
 <main class="wrap">
     <section class="hero"><h1>Operations dashboard</h1><p class="muted">Signed in as <strong th:text="${userName}">admin</strong>. Manage policy presets and customer applications.</p>

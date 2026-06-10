@@ -3,16 +3,18 @@ package com.insurex.service;
 import com.insurex.model.Role;
 import com.insurex.model.User;
 import com.insurex.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
     private final UserRepository repo;
+    private final PasswordEncoder passwordEncoder;
 
-    // ✅ Removed PasswordEncoder dependency completely
-    public UserService(UserRepository repo) {
+    public UserService(UserRepository repo, PasswordEncoder passwordEncoder) {
         this.repo = repo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User register(User user) {
@@ -23,9 +25,7 @@ public class UserService {
         }
 
         user.setRole(Role.USER);
-
-        // ✅ Directly saving the plain-text password from the user input
-        user.setPassword(user.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return repo.save(user);
     }

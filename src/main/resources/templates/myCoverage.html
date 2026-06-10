@@ -53,7 +53,10 @@
         tr:last-child td { border-bottom: none; }
 
         /* Status Pills */
-        .status-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #d1fae5; color: #065f46; }
+        .status-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status-pending  { background: #fef3c7; color: #92400e; }
+        .status-approved { background: #d1fae5; color: #065f46; }
+        .status-rejected { background: #fee2e2; color: #991b1b; }
         .empty-placeholder { text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px; }
         .empty-placeholder i { font-size: 32px; margin-bottom: 10px; color: #cbd5e1; display: block; }
     </style>
@@ -69,6 +72,7 @@
                 <li class="active"><a th:href="@{/my-coverage}"><i class="fa-solid fa-folder-open"></i>My Coverages</a></li>
                 <li><a th:href="@{/billing}"><i class="fa-solid fa-credit-card"></i>Billing Details</a></li>
                 <li><a href="#"><i class="fa-solid fa-headset"></i>Helpdesk Assistance</a></li>
+                <li><a th:href="@{/profile}"><i class="fa-solid fa-user"></i>My Profile</a></li>
             </ul>
         </div>
         <form th:action="@{/logout}" method="post" style="margin: 0; padding: 0; width: 100%;">
@@ -137,8 +141,9 @@
                     <td><span style="text-transform: capitalize; font-weight: 500;" th:text="${claim.category}">Travel</span></td>
                     <td><strong style="color: var(--text-dark);" th:text="${'INR ' + claim.claimAmount}">INR 0.00</strong></td>
                     <td>
-                        <span class="status-pill">
-                            <i class="fa-solid fa-circle-check"></i> <span th:text="${claim.status}">Claimed</span>
+                        <span th:class="'status-pill status-' + ${#strings.toLowerCase(claim.status)}">
+                            <i th:class="${claim.status == 'Approved'} ? 'fa-solid fa-circle-check' : (${claim.status == 'Rejected'} ? 'fa-solid fa-circle-xmark' : 'fa-solid fa-clock')"></i>
+                            <span th:text="${claim.status}">Pending</span>
                         </span>
                     </td>
                 </tr>

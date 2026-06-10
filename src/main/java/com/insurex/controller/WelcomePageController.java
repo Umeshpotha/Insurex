@@ -19,7 +19,7 @@ public class WelcomePageController {
             // ✅ Automatically forward them straight to the dashboard page
             boolean admin = auth.getAuthorities().stream()
                     .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
-            return admin ? "redirect:/admin" : "redirect:/userDash";
+            return admin ? "redirect:/admin" : "redirect:/dashboard";
         }
 
         // 3. Fallback for non-authenticated guests to access the landing home view
@@ -41,7 +41,7 @@ public class WelcomePageController {
         return "contactPage";
     }
 
-    @GetMapping("/wecomePage")
+    @GetMapping("/welcomePage")
     public String toWelcomePage() {
         return "welcomePage";
     }

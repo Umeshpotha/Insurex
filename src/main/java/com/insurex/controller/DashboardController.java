@@ -2,8 +2,10 @@ package com.insurex.controller;
 
 import com.insurex.model.Claim;
 import com.insurex.model.Policy;
+import com.insurex.model.User;
 import com.insurex.repository.ClaimRepository;
 import com.insurex.repository.PolicyRepository;
+import com.insurex.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +23,9 @@ public class DashboardController {
 
     @Autowired
     private ClaimRepository claimRepository;
+
+    @Autowired
+    private UserService userService;
 
     // Helper method to abstract shared Security Context email verification
     private String getAuthenticatedUserEmail() {
@@ -72,5 +77,15 @@ public class DashboardController {
         model.addAttribute("sessionEmail", currentLoggedEmail);
 
         return "billingDetails"; // Maps to templates/billingDetails.html
+    }
+
+    // 4. User Profile Page
+    @GetMapping("/profile")
+    public String showProfile(Model model) {
+        String email = getAuthenticatedUserEmail();
+        User user = userService.findByEmail(email);
+        model.addAttribute("user", user);
+        model.addAttribute("sessionEmail", email);
+        return "userProfile";
     }
 }

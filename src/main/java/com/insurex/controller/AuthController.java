@@ -12,8 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -68,38 +66,10 @@ public class AuthController {
         return "signin";
     }
 
-    // This handles the exact URL endpoint defined in your SecurityConfig success path
-    @GetMapping("/userDash")
-    public String dashboard(Model model) {
-        // 1. Extract security login context email
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentLoggedEmail = auth.getName();
-
-        // 🔍 DEBUG PRINTS: Keep an eye on your IDE console terminal when you log in!
-        System.out.println("=============================================");
-        System.out.println("DEBUG -> LOGGED IN USER IS: " + currentLoggedEmail);
-
-        // 2. Fetch all rows out of your DB tables (Now works perfectly!)
-        List<Policy> availablePolicies = policyRepository.findByStatusIgnoreCaseOrderByCreatedAtDesc("ACTIVE");
-        System.out.println("DEBUG -> POLICIES FOUND IN DB: " + availablePolicies.size());
-        System.out.println("=============================================");
-
-        List<Claim> userClaims = claimRepository.findByUser_Email(currentLoggedEmail);
-
-        // 3. Bind everything to the UI context
-        model.addAttribute("availablePolicies", availablePolicies);
-        model.addAttribute("myClaims", userClaims);
-        model.addAttribute("claimsCount", userClaims.size());
-        model.addAttribute("sessionEmail", currentLoggedEmail);
-
-        // 4. Serves userDash.html cleanly
-        return "userDash";
-    }
-
     private String redirectFor(Authentication authentication) {
         boolean admin = authentication.getAuthorities().stream()
                 .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
-        return admin ? "redirect:/admin" : "redirect:/userDash";
+        return admin ? "redirect:/admin" : "redirect:/dashboard";
     }
 
     @PostMapping("/applyPolicy")
@@ -114,7 +84,7 @@ public class AuthController {
 
         if (claimRepository.existsByUser_EmailAndPolicyName(email, policy.getName())) {
             redirectAttributes.addFlashAttribute("error", "You already applied for this policy");
-            return "redirect:/dashboard";
+            return "redirect:/my-coverage";
         }
 
         Claim application = new Claim();
